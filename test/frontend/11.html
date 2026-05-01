@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Tracker & Summary</title>
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Roboto Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Babel for JSX transformation -->
+    <script src="https://cdn.staticfile.org/babel-standalone/7.21.0/babel.min.js"></script>
+    <!-- React & ReactDOM -->
+    <script src="https://cdn.staticfile.org/react/18.2.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/18.2.0/umd/react-dom.development.js"></script>
+    <!-- MUI Core -->
+    <script src="https://cdn.staticfile.org/@mui/material/5.15.15/umd/material-ui.development.js"></script>
+    <!-- Emotion for MUI styling -->
+    <script src="https://cdn.staticfile.org/@emotion/react/11.11.4/dist/emotion-react.umd.min.js"></script>
+    <script src="https://cdn.staticfile.org/@emotion/styled/11.11.0/dist/emotion-styled.umd.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="root">
+        <div style="text-align: center; padding: 50px; font-family: 'Roboto', sans-serif; max-width: 800px; margin: 0 auto;">
+            <h1>Interview Tracker</h1>
+            
+            <div id="loading-message">
+                <p>Loading application...</p>
+                <div class="spinner" style="border: 4px solid #f3f3f3; border-top: 4px solid #1976d2; border-radius: 50%; width: 40px; height: 40px; margin: 20px auto; animation: spin 1s linear infinite;"></div>
+                <style>
+                    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                </style>
+            </div>
+            
+            <div id="error-message" style="color: red; display: none; text-align: left; background: #fff3f3; padding: 20px; border-radius: 8px; border: 1px solid #ffcdd2; margin-top: 20px;">
+                <h3 style="margin-top: 0;">⚠️ Unable to load required libraries</h3>
+                <p>The application cannot load React and MUI libraries from CDN. This is usually caused by:</p>
+                <ul>
+                    <li><strong>No internet connection</strong> - CDN requires internet access</li>
+                    <li><strong>Firewall/Proxy blocking CDN</strong> - Network restrictions</li>
+                    <li><strong>CDN service unavailable</strong> - Temporary issue</li>
+                </ul>
+                
+                <h4>Solutions:</h4>
+                <ol>
+                    <li><strong>Use offline version</strong> (recommended):
+                        <ul>
+                            <li>Run <code>download-libs.bat</code> in the frontend folder (requires one-time internet)</li>
+                            <li>Then open <a href="index-offline.html">index-offline.html</a></li>
+                        </ul>
+                    </li>
+                    <li><strong>Use local HTTP server</strong>:
+                        <ul>
+                            <li>Go to parent folder and run <code>start-server.bat</code></li>
+                            <li>Open <a href="http://localhost:8000">http://localhost:8000</a></li>
+                        </ul>
+                    </li>
+                    <li><strong>Check network settings</strong>:
+                        <ul>
+                            <li>Ensure you have internet access</li>
+                            <li>Try disabling VPN or proxy</li>
+                            <li>Open browser console (F12) for detailed errors</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 6px;">
+                    <p><strong>Quick test:</strong> Open <a href="test.html">test.html</a> to diagnose the issue.</p>
+                    <button onclick="window.location.href='test.html'" style="background: #4caf50; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Run Diagnostic Test</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if React and MUI are loaded after 3 seconds
+        setTimeout(function() {
+            var reactLoaded = typeof React !== 'undefined';
+            var muiLoaded = typeof MaterialUI !== 'undefined';
+            
+            if (!reactLoaded || !muiLoaded) {
+                document.getElementById('loading-message').style.display = 'none';
+                document.getElementById('error-message').style.display = 'block';
+                
+                // Update error details
+                var details = document.createElement('div');
+                details.style.marginTop = '15px';
+                details.style.fontSize = '14px';
+                details.innerHTML = '<strong>Diagnostic details:</strong><br>' +
+                    'React loaded: ' + (reactLoaded ? '✓' : '✗') + '<br>' +
+                    'MUI loaded: ' + (muiLoaded ? '✓' : '✗') + '<br>' +
+                    'Browser: ' + navigator.userAgent.split(')')[0] + ')';
+                document.getElementById('error-message').appendChild(details);
+            }
+        }, 3000);
+    </script>
+    <script src="db.js"></script>
+    <script type="text/babel" src="app.js"></script>
+</body>
+</html>
