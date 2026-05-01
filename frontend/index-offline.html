@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Tracker & Summary (Offline Version)</title>
+    <!-- Material Icons - with local fallback -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+    <!-- Roboto Font - with local fallback -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+    <!-- Babel for JSX transformation - local -->
+    <script src="libs/babel.min.js"></script>
+    <!-- React & ReactDOM - local -->
+    <script src="libs/react.development.js"></script>
+    <script src="libs/react-dom.development.js"></script>
+    <!-- MUI Core - local -->
+    <script src="libs/material-ui.development.js"></script>
+    <!-- Emotion for MUI styling - local -->
+    <script src="libs/emotion-react.umd.min.js"></script>
+    <script src="libs/emotion-styled.umd.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="root">
+        <div style="text-align: center; padding: 50px; font-family: 'Roboto', sans-serif;">
+            <h1>Interview Tracker (Offline Version)</h1>
+            <p>Loading application...</p>
+            <div id="error-message" style="color: red; display: none;">
+                <p>If you see this message for more than 10 seconds, please check:</p>
+                <ul style="text-align: left; display: inline-block;">
+                    <li>Make sure you have downloaded the required libraries using download-libs.ps1</li>
+                    <li>Check that the 'libs' folder contains all required .js files</li>
+                    <li>Browser console for errors (F12 → Console)</li>
+                    <li>Try opening with a local HTTP server (run start-server.bat in parent folder)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show error message after 5 seconds if page hasn't loaded
+        setTimeout(function() {
+            document.getElementById('error-message').style.display = 'block';
+        }, 5000);
+    </script>
+    <script src="db.js"></script>
+    <script type="text/babel" src="app.js"></script>
+</body>
+</html>

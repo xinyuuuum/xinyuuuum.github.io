@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Interview Tracker Test</h1>
+    
+    <div id="test-results">
+        <h2>Test Results:</h2>
+        <p id="test1">1. Basic HTML: <span class="success">✓ Pass</span></p>
+        <p id="test2">2. JavaScript: <span>Testing...</span></p>
+        <p id="test3">3. IndexedDB: <span>Testing...</span></p>
+        <p id="test4">4. React CDN: <span>Testing...</span></p>
+        <p id="test5">5. MUI CDN: <span>Testing...</span></p>
+    </div>
+
+    <script>
+        // Test 2: JavaScript
+        try {
+            document.getElementById('test2').innerHTML = '2. JavaScript: <span class="success">✓ Pass</span>';
+        } catch (e) {
+            document.getElementById('test2').innerHTML = '2. JavaScript: <span class="error">✗ Fail: ' + e.message + '</span>';
+        }
+
+        // Test 3: IndexedDB
+        setTimeout(() => {
+            try {
+                if ('indexedDB' in window) {
+                    document.getElementById('test3').innerHTML = '3. IndexedDB: <span class="success">✓ Supported</span>';
+                } else {
+                    document.getElementById('test3').innerHTML = '3. IndexedDB: <span class="error">✗ Not supported</span>';
+                }
+            } catch (e) {
+                document.getElementById('test3').innerHTML = '3. IndexedDB: <span class="error">✗ Error: ' + e.message + '</span>';
+            }
+        }, 100);
+
+        // Test 4: React CDN
+        setTimeout(() => {
+            try {
+                if (typeof React !== 'undefined') {
+                    document.getElementById('test4').innerHTML = '4. React CDN: <span class="success">✓ Loaded</span>';
+                } else {
+                    document.getElementById('test4').innerHTML = '4. React CDN: <span class="error">✗ Not loaded</span>';
+                }
+            } catch (e) {
+                document.getElementById('test4').innerHTML = '4. React CDN: <span class="error">✗ Error: ' + e.message + '</span>';
+            }
+        }, 500);
+
+        // Test 5: MUI CDN
+        setTimeout(() => {
+            try {
+                if (typeof MaterialUI !== 'undefined') {
+                    document.getElementById('test5').innerHTML = '5. MUI CDN: <span class="success">✓ Loaded</span>';
+                } else {
+                    document.getElementById('test5').innerHTML = '5. MUI CDN: <span class="error">✗ Not loaded</span>';
+                }
+            } catch (e) {
+                document.getElementById('test5').innerHTML = '5. MUI CDN: <span class="error">✗ Error: ' + e.message + '</span>';
+            }
+        }, 1000);
+    </script>
+
+    <script>
+        // Try multiple CDN sources for React
+        function loadScript(src, onload, onerror) {
+            var script = document.createElement('script');
+            script.src = src;
+            script.onload = onload;
+            script.onerror = onerror;
+            document.head.appendChild(script);
+        }
+        
+        var reactAttempts = 0;
+        var muiAttempts = 0;
+        
+        var reactSources = [
+            'https://cdn.staticfile.org/react/18.2.0/umd/react.development.js',
+            'https://unpkg.com/react@18/umd/react.development.js',
+            'https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js',
+            'https://cdn.bootcss.com/react/18.2.0/umd/react.development.js'
+        ];
+        
+        var muiSources = [
+            'https://cdn.staticfile.org/@mui/material/5.15.15/umd/material-ui.development.js',
+            'https://unpkg.com/@mui/material@5.15.15/umd/material-ui.development.js',
+            'https://cdn.jsdelivr.net/npm/@mui/material@5.15.15/umd/material-ui.development.js',
+            'https://cdn.bootcss.com/mui/5.15.15/umd/material-ui.development.js'
+        ];
+        
+        function tryLoadReact(index) {
+            if (index >= reactSources.length) {
+                console.error('All React CDN attempts failed');
+                return;
+            }
+            loadScript(reactSources[index], 
+                function() { console.log('React loaded from: ' + reactSources[index]); },
+                function() { 
+                    console.log('Failed to load React from: ' + reactSources[index]);
+                    tryLoadReact(index + 1);
+                }
+            );
+        }
+        
+        function tryLoadMUI(index) {
+            if (index >= muiSources.length) {
+                console.error('All MUI CDN attempts failed');
+                return;
+            }
+            loadScript(muiSources[index], 
+                function() { console.log('MUI loaded from: ' + muiSources[index]); },
+                function() { 
+                    console.log('Failed to load MUI from: ' + muiSources[index]);
+                    tryLoadMUI(index + 1);
+                }
+            );
+        }
+        
+        // Start loading
+        tryLoadReact(0);
+        tryLoadMUI(0);
+    </script>
+    <script src="https://cdn.staticfile.org/react-dom/18.2.0/umd/react-dom.development.js"></script>
+</body>
+</html>
